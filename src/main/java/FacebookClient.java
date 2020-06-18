@@ -93,7 +93,6 @@ public class FacebookClient {
         sendButton.click();
     }
 
-
     /**
      * Method that acts as an arbiter of implicit timeouts of sorts. Performs {@code MAX_ATTEMPTS} attempts
      * after interval of 1 seconds
@@ -102,7 +101,7 @@ public class FacebookClient {
      * @return WebElement if found
      * @throws Exception if WebElement not found
      */
-    public WebElement waitForElement(By by) throws Exception {
+    private WebElement waitForElement(By by) throws Exception {
         int attempts = 0;
         int size = driver.findElements(by).size();
 
@@ -112,11 +111,7 @@ public class FacebookClient {
                 throw new Exception("Could not find the element by: " + by.toString());
             }
             attempts++;
-            try {
-                Thread.sleep(1000); // sleep for 1 second.
-            } catch (Exception x) {
-                x.printStackTrace();
-            }
+            Utils.delay(1);
         }
 
         if (size > 1) {
@@ -124,5 +119,6 @@ public class FacebookClient {
         }
         return driver.findElement(by);
     }
+
 
 }
