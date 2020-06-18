@@ -32,6 +32,6 @@ env EDITOR=nano crontab -e #Open crontab for editing
 #Fourth : month (1-12)
 #Fifth  : day of the week (Sunday = 0; Saturday = 6)
 
-#Run daily at 1 minute past midnight
-01 00 * * * bash -l ~/fbwisher/run.sh > /tmp/fbwisher_log.txt 2>&1
+#Run every hour at 1 minute
+01 * * * * bash -l ~/fbwisher/run.sh > /tmp/fbwisher_log.txt 2>&1
 ```
