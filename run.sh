@@ -5,6 +5,14 @@ SECONDS=0
 
 source ~/.bash_profile
 
+#Exit script if /tmp/fbwisher_date.txt date is today date
+TODAY=$(date '+%Y-%m-%d')
+FILE="/tmp/fbwisher_date.txt"
+if grep -q "$TODAY" "$FILE"; then
+  exit
+fi
+echo "$TODAY" > /tmp/fbwisher_date.txt
+
 ./gradlew installDist
 build/install/fbwisher/bin/fbwisher
 
