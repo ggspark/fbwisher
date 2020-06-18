@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
  */
 public class Main {
     public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", Utils.findFile("chromedriver.mac"));
+        System.setProperty("webdriver.chrome.driver", "chromedriver.mac");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("user-data-dir=~/Library/Application Support/Google/Chrome/Default/");
         options.addArguments("--start-maximized");

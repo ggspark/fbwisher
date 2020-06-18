@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -7,15 +6,6 @@ import java.util.Set;
  * Created by Gaurav on 18/06/20.
  */
 public class Utils {
-
-    static public String findFile(String filename) {
-        String[] paths = {"", "bin/", "target/classes"}; // if you have chromedriver somewhere else on the path, then put it here.
-        for (String path : paths) {
-            if (new File(path + filename).exists())
-                return path + filename;
-        }
-        return "";
-    }
 
     public static String getIdFromUrl(Set<String> urls) {
         for (String s : urls) {
@@ -29,7 +19,7 @@ public class Utils {
     }
 
     public static Map<String, String> getQueryMap(String query) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         if (query == null || query.isEmpty()) {
             return map;
         }

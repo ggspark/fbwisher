@@ -83,8 +83,9 @@ public class FacebookClient {
             }
         }
 
-        if (size > 1) System.out.println("WARN: There are more than 1 " + by.toString() + " 's!");
-
+        if (size > 1) {
+            System.out.println("WARN: There are more than 1 " + by.toString() + " 's!");
+        }
         return driver.findElement(by);
     }
 
