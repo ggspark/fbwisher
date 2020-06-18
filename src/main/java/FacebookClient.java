@@ -109,6 +109,7 @@ public class FacebookClient {
         inputBox.sendKeys(Keys.ENTER);
         WebElement sendButton = waitForElement(By.name("send"));
         sendButton.click();
+        Utils.delay(5);//Wait 5 seconds for the message to go
     }
 
     /**
