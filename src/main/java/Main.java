@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "chromedriver.mac"); //Set chrome driver for mac in project dir, you can download latest from https://sites.google.com/a/chromium.org/chromedriver/downloads
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("user-data-dir=~/Library/Application Support/Google/Chrome/Default/"); //Setting this to use the same account again and again without login
+        options.addArguments("user-data-dir=Chrome/Default/"); //Setting this to use the same account again and again without login
         WebDriver driver = new ChromeDriver(options); //Create web driver
         FacebookClient facebookClient = new FacebookClient(driver); //Create fb client obj with driver
         facebookClient.wishBirthday(); //Wish birthday

@@ -10,6 +10,7 @@
 .svn/
 *.jks
 ~
+Chrome
 
 # IntelliJ related
 *.iml
