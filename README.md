@@ -1,4 +1,5 @@
 # fbwisher
+Project to wish a happy birthday to all facebook friends
 
 ## Install
 #### Download and setup the project
@@ -16,12 +17,11 @@ cd ~/fbwisher
 build/install/fbwisher/bin/fbwisher
 ```
 
-
 ## Setup cronjob
 #### Open crontab editor by running
 ```
-crontab -l
-env EDITOR=nano crontab -e
+crontab -l #List all the crontabs
+env EDITOR=nano crontab -e #Open crontab for editing
 ```
 
 #### Paste the following in the crontab editor
@@ -32,6 +32,6 @@ env EDITOR=nano crontab -e
 #Fourth : month (1-12)
 #Fifth  : day of the week (Sunday = 0; Saturday = 6)
 
-#Daily
+#Run daily at 1 minute past midnight
 01 00 * * * cd ~/; bash -l ~/fbwisher/build/install/fbwisher/bin/fbwisher > /tmp/fbwisher_log.txt 2>&1
 ```
