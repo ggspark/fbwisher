@@ -12,12 +12,8 @@ public class Main {
         options.addArguments("user-data-dir=~/Library/Application Support/Google/Chrome/Default/");
         options.addArguments("--start-maximized");
         WebDriver driver = new ChromeDriver(options);
-        try {
-            FacebookClient facebookClient = new FacebookClient(driver);
-            facebookClient.wishBirthday();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        FacebookClient facebookClient = new FacebookClient(driver);
+        facebookClient.wishBirthday();
         driver.quit();
     }
 }

@@ -19,25 +19,49 @@ public class FacebookClient {
         this.driver = driver;
     }
 
-    public void wishBirthday() throws Exception {
-        driver.get("https://m.facebook.com/events/birthdays");
-        WebElement todaysBirthdays = waitForElement(By.xpath("//span[text()=\"Today's Birthdays\"]/parent::*/parent::*"));
-        List<WebElement> birthdays = todaysBirthdays.findElements(By.tagName("a"));
-        Set<String> birthdayUrls = new HashSet<>();
-        for (WebElement birthday : birthdays) {
-            birthdayUrls.add(birthday.getAttribute("href"));
-        }
-        for (String friendUrl : birthdayUrls) {
-            System.out.println("Birthdays: " + friendUrl);
-            try {
-                String profileId = getFbId(friendUrl);
-                sendMessage(profileId, "Happy Birthday :)");
-            } catch (Exception e) {
-                e.printStackTrace();
+    /**
+     * Try to wish birthday to all the friends who's birthday it is today
+     */
+    public void wishBirthday() {
+        try {
+            driver.get("https://m.facebook.com/events/birthdays");
+            WebElement todaysBirthdays = waitForElement(By.xpath("//span[text()=\"Today's Birthdays\"]/parent::*/parent::*"));
+            List<WebElement> birthdays = todaysBirthdays.findElements(By.tagName("a"));
+            Set<String> birthdayUrls = new HashSet<>();
+            for (WebElement birthday : birthdays) {
+                birthdayUrls.add(birthday.getAttribute("href"));
             }
+            for (String friendUrl : birthdayUrls) {
+                System.out.println("Birthdays: " + friendUrl);
+                sendMessageByUrl(friendUrl, "Happy Birthday :)");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Method to try to send {@code message} to friend by profile link
+     *
+     * @param friendUrl profile link of person to send the message to
+     * @param message   message to be sent
+     */
+    public void sendMessageByUrl(String friendUrl, String message) {
+        try {
+            String profileId = getFbId(friendUrl);
+            sendMessage(profileId, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets real facebook id of profile from profile link
+     *
+     * @param friendUrl profile link of person to find the profile id
+     * @return profile id if found
+     * @throws Exception if profile id is not found
+     */
     public String getFbId(String friendUrl) throws Exception {
         driver.get(friendUrl);
         WebElement timeLineSection = waitForElement(By.id("m-timeline-cover-section"));
@@ -49,6 +73,13 @@ public class FacebookClient {
         return Utils.getIdFromUrl(profileUrls);
     }
 
+    /**
+     * Method to send {@code message} to {@code profileId}
+     *
+     * @param profileId profile id of person to send message to
+     * @param message   message to be sent
+     * @throws Exception if unable to send message
+     */
     public void sendMessage(String profileId, String message) throws Exception {
         if (profileId == null || profileId.isEmpty()) {
             return;
@@ -64,7 +95,12 @@ public class FacebookClient {
 
 
     /**
-     * Method that acts as an arbiter of implicit timeouts of sorts
+     * Method that acts as an arbiter of implicit timeouts of sorts. Performs {@code MAX_ATTEMPTS} attempts
+     * after interval of 1 seconds
+     *
+     * @param by selector to find the element
+     * @return WebElement if found
+     * @throws Exception if WebElement not found
      */
     public WebElement waitForElement(By by) throws Exception {
         int attempts = 0;
