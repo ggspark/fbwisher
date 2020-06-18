@@ -1,86 +1,91 @@
-import io.ddavison.conductor.Browser;
-import io.ddavison.conductor.Config;
-import io.ddavison.conductor.Locomotive;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
- * Created by Gaurav on 7/4/16.
+ * Created by Gaurav on 18/06/20.
  */
+public class FacebookClient {
+    private static final int MAX_ATTEMPTS = 10; //Seconds
+    private final WebDriver driver;
 
-@Config(
-        browser = Browser.CHROME,
-        url = "https://m.facebook.com/"
-)
-public class FacebookClient extends Locomotive {
+    public FacebookClient(WebDriver driver) {
+        this.driver = driver;
+    }
 
+    public void wishBirthday() throws Exception {
+        driver.get("https://m.facebook.com/events/birthdays");
+        WebElement todaysBirthdays = waitForElement(By.xpath("//span[text()=\"Today's Birthdays\"]/parent::*/parent::*"));
+        List<WebElement> birthdays = todaysBirthdays.findElements(By.tagName("a"));
+        Set<String> birthdayUrls = new HashSet<>();
+        for (WebElement birthday : birthdays) {
+            birthdayUrls.add(birthday.getAttribute("href"));
+        }
+        for (String friendUrl : birthdayUrls) {
+            System.out.println("Birthdays: " + friendUrl);
+            try {
+                String profileId = getFbId(friendUrl);
+                sendMessage(profileId, "Happy Birthday :)");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    public String getFbId(String friendUrl) throws Exception {
+        driver.get(friendUrl);
+        WebElement timeLineSection = waitForElement(By.id("m-timeline-cover-section"));
+        List<WebElement> urlElements = timeLineSection.findElements(By.tagName("a"));
+        Set<String> profileUrls = new HashSet<>();
+        for (WebElement element : urlElements) {
+            profileUrls.add(element.getAttribute("href"));
+        }
+        return Utils.getIdFromUrl(profileUrls);
+    }
 
-    public static void facebook(String[] args) {
-        if (args == null || args.length != 2 || args[0] == null || args[0].trim().length() == 0 || args[1] == null || args[1].trim().length() == 0) {
-            System.err.println("Invalid command. Please use the format:\nfbwisher <email> <password>");
+    public void sendMessage(String profileId, String message) throws Exception {
+        if (profileId == null || profileId.isEmpty()) {
             return;
         }
-        FacebookClient facebook = new FacebookClient();
-        try {
-            facebook.login(args[0].trim(), args[1].trim());
-            //facebook.wishBirthday();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            facebook.teardown();
-        }
+        driver.get("https://m.facebook.com/messages/thread/" + profileId);
+        WebElement inputBox = waitForElement(By.id("composerInput"));
+        inputBox.clear();
+        inputBox.sendKeys(message);
+        inputBox.sendKeys(Keys.ENTER);
+        WebElement sendButton = waitForElement(By.name("send"));
+        sendButton.click();
     }
 
-    public void login(String email, String pass) {
-        setText(By.id("m_login_email"), email);
-        setText(By.id("m_login_password"), pass);
-        click(By.name("login"));
-        delay(500);
-        waitForElement(By.id("MComposer"));
-        delay(500);
-    }
 
-    public void sendMessage(String name, String message) {
-        driver.navigate().to("https://www.facebook.com/messages/new");
+    /**
+     * Method that acts as an arbiter of implicit timeouts of sorts
+     */
+    public WebElement waitForElement(By by) throws Exception {
+        int attempts = 0;
+        int size = driver.findElements(by).size();
 
-        WebElement friendName = waitForElement(By.xpath("//input[@class='inputtext textInput']"));
-        friendName.sendKeys(name);//Change it with your friend name
-        friendName.sendKeys(Keys.ENTER);
-        setText(By.className("uiTextareaAutogrow"), message);
-        waitForElement(By.className("uiTextareaAutogrow")).sendKeys(Keys.ENTER);
-    }
-
-    public void wishBirthday() {
-        try {
-            driver.navigate().to("https://m.facebook.com/events/birthdays");
-            WebElement birthdayContainer = waitForElement(By.xpath("//div[@title=\"Today's Birthdays\"]"));
-            List<WebElement> birthdays = birthdayContainer.findElements(By.tagName("a"));
-            Set<String> birthdayUrls = new HashSet<>();
-            for (WebElement birthday : birthdays) {
-                birthdayUrls.add(birthday.getAttribute("href"));
+        while (size == 0) {
+            size = driver.findElements(by).size();
+            if (attempts == MAX_ATTEMPTS) {
+                throw new Exception("Could not find the element by: " + by.toString());
             }
-
-            for (String friendUrl : birthdayUrls) {
-                // sendMessage(new FacebookFriend(friendUrl, null), "Happy Birthday :)");
+            attempts++;
+            try {
+                Thread.sleep(1000); // sleep for 1 second.
+            } catch (Exception x) {
+                x.printStackTrace();
             }
-        } catch (AssertionError e) {
-            driver.close();
         }
-    }
 
-    public static void delay(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+        if (size > 1) System.out.println("WARN: There are more than 1 " + by.toString() + " 's!");
 
+        return driver.findElement(by);
+    }
 
 }

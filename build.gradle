@@ -10,5 +10,4 @@ repositories {
 
 dependencies {
     compile 'org.seleniumhq.selenium:selenium-java:2.53.0'
-    compile 'io.ddavison:conductor:2.2.2'
 }
