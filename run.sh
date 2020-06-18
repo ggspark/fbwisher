@@ -11,9 +11,9 @@ FILE="/tmp/fbwisher_date.txt"
 if grep -q "$TODAY" "$FILE"; then
   exit
 fi
-echo "$TODAY" > /tmp/fbwisher_date.txt
+echo "$TODAY" >/tmp/fbwisher_date.txt
 
 ./gradlew installDist
 build/install/fbwisher/bin/fbwisher
 
-echo -e "\033[0;35m Time Elapsed: $((SECONDS/3600)) Hrs, $(((SECONDS/60)%60)) Mins, $((SECONDS%60)) Sec \033[0;37m"
+echo -e "\033[0;35m Time Elapsed: $((SECONDS / 3600)) Hrs, $(((SECONDS / 60) % 60)) Mins, $((SECONDS % 60)) Sec \033[0;37m"
