@@ -13,8 +13,8 @@ git pull origin master
 #### Run the project
 ```
 cd ~/fbwisher
-./gradlew installDist
-build/install/fbwisher/bin/fbwisher
+./gradlew installDist #Create the exectuable
+build/install/fbwisher/bin/fbwisher #You can copy this to preferred location
 ```
 
 ## Setup cronjob
