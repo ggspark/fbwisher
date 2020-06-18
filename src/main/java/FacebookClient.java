@@ -36,6 +36,23 @@ public class FacebookClient {
                 sendMessageByUrl(friendUrl, "Happy Birthday :)");
             }
         } catch (Exception e) {
+            System.out.println("Checking for login");
+            allowLoginIfNeeded();
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method that waits for 5 minutes if login is required
+     */
+    private void allowLoginIfNeeded() {
+        try {
+            driver.get("https://m.facebook.com");
+            waitForElement(By.id("email_input_container"));
+            System.out.println("Waiting for login. Please perform within 5 minutes");
+            Utils.delay(5 * 60); //Wait for 5 minutes
+        } catch (Exception e) {
+            System.out.println("Login not required");
             e.printStackTrace();
         }
     }
@@ -51,6 +68,7 @@ public class FacebookClient {
             String profileId = getFbId(friendUrl);
             sendMessage(profileId, message);
         } catch (Exception e) {
+            System.out.println("Couldn't send message to " + friendUrl);
             e.printStackTrace();
         }
     }
