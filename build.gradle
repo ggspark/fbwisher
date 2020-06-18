@@ -1,0 +1,14 @@
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+apply plugin:'application'
+mainClassName = "Main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.seleniumhq.selenium:selenium-java:2.53.0'
+    compile 'io.ddavison:conductor:2.2.2'
+}
