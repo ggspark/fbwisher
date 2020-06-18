@@ -13,7 +13,7 @@ git pull origin master
 #### Run the project
 ```
 cd ~/fbwisher
-./gradlew installDist #Create the exectuable
+./gradlew installDist #Create the executable
 build/install/fbwisher/bin/fbwisher #You can copy this to preferred location
 ```
 
@@ -33,5 +33,5 @@ env EDITOR=nano crontab -e #Open crontab for editing
 #Fifth  : day of the week (Sunday = 0; Saturday = 6)
 
 #Run daily at 1 minute past midnight
-01 00 * * * cd ~/; bash -l ~/fbwisher/build/install/fbwisher/bin/fbwisher > /tmp/fbwisher_log.txt 2>&1
+01 00 * * * cd ~/; bash -l ~/fbwisher/run.sh > /tmp/fbwisher_log.txt 2>&1
 ```
