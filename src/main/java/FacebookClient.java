@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -103,11 +102,15 @@ public class FacebookClient {
             return;
         }
         driver.get("https://m.facebook.com/messages/thread/" + profileId);
-        WebElement inputBox = waitForElement(By.id("composerInput"));
+        WebElement inputBox = waitForElement(By.name("body"));
         inputBox.clear();
         inputBox.sendKeys(message);
-        inputBox.sendKeys(Keys.ENTER);
-        WebElement sendButton = waitForElement(By.name("send"));
+        WebElement sendButton;
+        try {
+            sendButton = waitForElement(By.name("send"));
+        } catch (Exception e) {
+            sendButton = waitForElement(By.name("Send"));
+        }
         sendButton.click();
         Utils.delay(5);//Wait 5 seconds for the message to go
     }
