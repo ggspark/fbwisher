@@ -7,7 +7,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
  */
 public class Main {
     public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.mac"); //Set chrome driver for mac in project dir, you can download latest from https://sites.google.com/a/chromium.org/chromedriver/downloads
+        //Set chrome driver for mac in project dir, you can download latest from https://sites.google.com/a/chromium.org/chromedriver/downloads
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            System.setProperty("webdriver.chrome.driver", "chromedriver.mac");
+        } else {
+            System.setProperty("webdriver.chrome.driver", "chromedriver.lin");
+        }
         ChromeOptions options = new ChromeOptions();
         options.addArguments("user-data-dir=Chrome/Default/"); //Setting this to use the same account again and again without login
         WebDriver driver = new ChromeDriver(options); //Create web driver
