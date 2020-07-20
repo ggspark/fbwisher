@@ -1,6 +1,5 @@
-#!/bin/bash
-BASEDIR=$(dirname "$0")
-cd "$BASEDIR" || exit
+#!/usr/bin/env bash
+cd "$(dirname "$0")" || exit #Cd to project dir
 SECONDS=0
 
 source ~/.bash_profile
