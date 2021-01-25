@@ -4,7 +4,7 @@
 # bash findFacebookUnfriends.sh
 SECONDS=0
 
-for i in $(find ~/Downloads/facebook-messages -name '*.json' -type f); do
+for i in $(find ./messages -name '*.json' -type f); do
   MESSENGER_NAME=$(cat "$i" | jq 'if
     (.messages[0].content == "Happy\nBirthday\n:)") and
     (.messages | length) < 5
