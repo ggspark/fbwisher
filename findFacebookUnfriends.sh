@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Download facebook information with friends and messages selected https://www.facebook.com/dyi
+# Download facebook information in JSON with friends and messages selected https://www.facebook.com/dyi
 # Cd to the directory downloaded from facebook
 # bash findFacebookUnfriends.sh
 SECONDS=0
