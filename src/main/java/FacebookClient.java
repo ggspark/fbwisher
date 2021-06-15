@@ -32,7 +32,7 @@ public class FacebookClient {
             }
             for (String friendUrl : birthdayUrls) {
                 System.out.println("Birthdays: " + friendUrl);
-                sendMessageByUrl(friendUrl, "Happy Birthday :)");
+                sendMessageByUrl(friendUrl, "Wish you a very Happy Birthday");
             }
         } catch (Exception e) {
             System.out.println("Checking for login");
