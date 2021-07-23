@@ -14,6 +14,8 @@ public class Main {
             System.setProperty("webdriver.chrome.driver", "chromedriver.lin");
         }
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("user-data-dir=Chrome/Default/"); //Setting this to use the same account again and again without login
         WebDriver driver = new ChromeDriver(options); //Create web driver
         FacebookClient facebookClient = new FacebookClient(driver); //Create fb client obj with driver
