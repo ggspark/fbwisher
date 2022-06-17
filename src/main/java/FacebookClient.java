@@ -25,6 +25,8 @@ public class FacebookClient {
         try {
             driver.get("https://m.facebook.com/events/birthdays");
             Utils.delay(5);
+            driver.get("https://m.facebook.com");
+            Utils.delay(5);
             System.out.println("Visiting: https://m.facebook.com/events/birthdays");
             driver.get("https://m.facebook.com/events/birthdays");
             WebElement todaysBirthdays = waitForElement(By.xpath("//span[text()=\"Today's Birthdays\"]/parent::*/parent::*"));
