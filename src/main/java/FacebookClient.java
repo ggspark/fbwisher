@@ -23,10 +23,7 @@ public class FacebookClient {
      */
     public void wishBirthday() {
         try {
-            driver.get("https://m.facebook.com/events/birthdays");
-            Utils.delay(500);
-            System.out.println("Visiting: https://m.facebook.com/events/birthdays");
-            driver.get("https://m.facebook.com/events/birthdays");
+            driver.get("https://m.facebook.com/events/calendar/birthdays");
             WebElement todaysBirthdays = waitForElement(By.xpath("//span[text()=\"Today's Birthdays\"]/parent::*/parent::*"));
             List<WebElement> birthdays = todaysBirthdays.findElements(By.tagName("a"));
             Set<String> birthdayUrls = new HashSet<>();
