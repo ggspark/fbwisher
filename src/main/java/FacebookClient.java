@@ -24,6 +24,7 @@ public class FacebookClient {
     public void wishBirthday() {
         try {
             driver.get("https://m.facebook.com/events/birthdays");
+            System.out.println("Visiting: https://m.facebook.com/events/birthdays");
             WebElement todaysBirthdays = waitForElement(By.xpath("//span[text()=\"Today's Birthdays\"]/parent::*/parent::*"));
             List<WebElement> birthdays = todaysBirthdays.findElements(By.tagName("a"));
             Set<String> birthdayUrls = new HashSet<>();
